@@ -4,12 +4,14 @@ from typing import Optional
 
 
 class UserCreate(BaseModel):
+    member: str
     email: EmailStr
     password: str
 
 
 class UserOut(BaseModel):
     id: int
+    member: str
     email: EmailStr
     created_at: datetime
 
@@ -23,17 +25,20 @@ class UserLogin(BaseModel):
     password: str
 
 
-class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True
+class ExpenseBase(BaseModel):
+    date: datetime
+    total: float
+    currency: str
+    what_is: str
+    section: str
+    public: bool = True
 
 
-class PostCreate(PostBase):
+class ExpenseCreate(ExpenseBase):
     pass
 
 
-class Post(PostBase):
+class Expense(ExpenseBase):
     id: int
     created_at: datetime
     owner_id: int
