@@ -1,6 +1,6 @@
 from .database import Base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime, Float
-from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlalchemy.sql.sqltypes import TIMESTAMP, DATE
 from sqlalchemy.sql.expression import text
 # from sqlalchemy.orm import relationship
 
@@ -46,7 +46,7 @@ class Budget(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     editor_id = Column(Integer, ForeignKey('members.id', ondelete='CASCADE'))
     updated_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    date = Column(DateTime, nullable=False)
+    date = Column(DATE, nullable=False, server_default=text('now()'))
     total = Column(Float, nullable=False)
     currency_id = Column(Integer, ForeignKey('currencies.id', ondelete='CASCADE'))
     what_is = Column(String)

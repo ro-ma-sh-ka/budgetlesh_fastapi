@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 
@@ -60,11 +60,11 @@ class Section(SectionBase):
 
 
 class ExpenseBase(BaseModel):
-    # date: datetime
+    date: date
     total: float
-    # currency: str
+    currency_id: int
     what_is: str
-    # section: str
+    section_id: int
     public: bool = True
 
 
@@ -75,9 +75,7 @@ class ExpenseCreate(ExpenseBase):
 class Expense(ExpenseBase):
     id: int
     created_at: datetime
-    owner_id: int
-    # all information about user which we allow into UserOut schema
-    owner: UserOut
+    creator_id: int
 
     # to read a data even it isn't a dict
     class Config:

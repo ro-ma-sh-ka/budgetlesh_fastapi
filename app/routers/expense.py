@@ -30,7 +30,7 @@ def get_expenses(db: Session = Depends(get_db), current_user: int = Depends(oaut
 def add_expenses(expense: schemas.ExpenseCreate, db: Session = Depends(get_db),
                  current_user: int = Depends(oauth2.get_current_user)):
     # **post.dict() - to simplify classic way: title=post.title, content=post.content etc.
-    new_expense = models.Budget(creator_id=current_user.id, **expense.dict())
+    new_expense = models.Budget(creator_id=current_user.id, editor_id=current_user.id, **expense.dict())
     db.add(new_expense)
     db.commit()
     db.refresh(new_expense)
