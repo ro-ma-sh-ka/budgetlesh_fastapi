@@ -25,12 +25,46 @@ class UserLogin(BaseModel):
     password: str
 
 
-class ExpenseBase(BaseModel):
-    date: datetime
-    total: float
+class CurrencyBase(BaseModel):
     currency: str
-    what_is: str
+
+
+class CurrencyCreate(CurrencyBase):
+    pass
+
+
+class Currency(CurrencyBase):
+    id: int
+    creator_id: int
+
+    # to read a data even it isn't a dict
+    class Config:
+        orm_mode = True
+
+
+class SectionBase(BaseModel):
     section: str
+
+
+class SectionCreate(SectionBase):
+    pass
+
+
+class Section(SectionBase):
+    id: int
+    creator_id: int
+
+    # to read a data even it isn't a dict
+    class Config:
+        orm_mode = True
+
+
+class ExpenseBase(BaseModel):
+    # date: datetime
+    total: float
+    # currency: str
+    what_is: str
+    # section: str
     public: bool = True
 
 

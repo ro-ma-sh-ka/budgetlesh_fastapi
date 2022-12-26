@@ -16,13 +16,13 @@ router = APIRouter(
 # we use type List from typing to adjust our schema Post showing list of data
 @router.get("/", response_model=List[schemas.Expense])
 def get_expenses(db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user),
-              limit: int = 10, skip: int = 0, search: Optional[str] = ""):
+                 limit: int = 10, skip: int = 0, search: Optional[str] = ""):
 
     # query parameters#
     # limit = how many results will have a user, we use method limit
     # skip = how many results query will skip, we use method offset. We can use it for pagination
     # search - search key words, We use method filter
-    expenses = db.query(models.Budget).filter(models.Budget.title.contains(search)).limit(limit).offset(skip).all()
+    expenses = db.query(models.Budget).all()
     return expenses
 
 
@@ -30,7 +30,7 @@ def get_expenses(db: Session = Depends(get_db), current_user: int = Depends(oaut
 def add_expenses(expense: schemas.ExpenseCreate, db: Session = Depends(get_db),
                  current_user: int = Depends(oauth2.get_current_user)):
     # **post.dict() - to simplify classic way: title=post.title, content=post.content etc.
-    new_expense = models.Budget(owner_id=current_user.id, **expense.dict())
+    new_expense = models.Budget(creator_id=current_user.id, **expense.dict())
     db.add(new_expense)
     db.commit()
     db.refresh(new_expense)
@@ -67,7 +67,7 @@ def delete_expense(id: int, db: Session = Depends(get_db), current_user: int = D
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.put("/{id}", response_model=schemas.Post)
+@router.put("/{id}", response_model=schemas.Expense)
 def update_expense(id: int, updated_post: schemas.ExpenseCreate, db: Session = Depends(get_db),
                 current_user: int = Depends(oauth2.get_current_user)):
     expense_query = db.query(models.Budget).filter(models.Budget.id == id)
