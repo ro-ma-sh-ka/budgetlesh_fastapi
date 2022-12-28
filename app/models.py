@@ -9,7 +9,8 @@ class Currency(Base):
     __tablename__ = 'currencies'
 
     id = Column(Integer, primary_key=True, nullable=False)
-    currency = Column(String)
+    currency = Column(String, nullable=False)
+    country = Column(String, nullable=False)
     creator_id = Column(Integer, ForeignKey('members.id', ondelete='CASCADE'))
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     editor_id = Column(Integer, ForeignKey('members.id', ondelete='CASCADE'))

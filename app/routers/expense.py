@@ -68,7 +68,7 @@ def delete_expense(id: int, db: Session = Depends(get_db), current_user: int = D
 
 
 @router.put("/{id}", response_model=schemas.Expense)
-def update_expense(id: int, updated_post: schemas.ExpenseCreate, db: Session = Depends(get_db),
+def update_expense(id: int, updated_expense: schemas.ExpenseCreate, db: Session = Depends(get_db),
                 current_user: int = Depends(oauth2.get_current_user)):
     expense_query = db.query(models.Budget).filter(models.Budget.id == id)
     expense = expense_query.first()
@@ -78,6 +78,6 @@ def update_expense(id: int, updated_post: schemas.ExpenseCreate, db: Session = D
     if expense.owner_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'Not authorized to update this post')
 
-    expense_query.update(updated_post.dict(), synchronize_session=False)
+    expense_query.update(updated_expense.dict(), synchronize_session=False)
     db.commit()
     return expense

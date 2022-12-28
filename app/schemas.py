@@ -27,6 +27,7 @@ class UserLogin(BaseModel):
 
 class CurrencyBase(BaseModel):
     currency: str
+    country: str
 
 
 class CurrencyCreate(CurrencyBase):
