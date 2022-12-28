@@ -25,7 +25,7 @@ def create_section(section: schemas.SectionCreate, db: Session = Depends(get_db)
 
 @router.put("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.Section)
 def update_section(id: int, updated_section: schemas.SectionCreate, db: Session = Depends(get_db),
-                   current_user: int = Depends(oauth2.get_current_user())):
+                   current_user: int = Depends(oauth2.get_current_user)):
     # to improve - use current_user to check permissions (update, delete etc)
     section_query = db.query(models.Section).filter(models.Section.id == id)
     section = section_query.first()
@@ -37,7 +37,7 @@ def update_section(id: int, updated_section: schemas.SectionCreate, db: Session 
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_section(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user())):
+def delete_section(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     # to improve - use current_user to check permissions (update, delete etc)
     section_query = db.query(models.Section).filter(models.Section.id == id)
     section = section_query.first()
